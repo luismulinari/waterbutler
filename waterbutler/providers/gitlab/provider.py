@@ -67,8 +67,8 @@ class GitLabProvider(provider.BaseProvider):
         self.owner = self.settings['owner']
         self.repo = self.settings['repo']
         self.repo_id = self.settings['repo_id']
-        self.BASE_URL = self.settings['base_url']
-        self.VIEW_URL = self.settings['view_url']
+        self.BASE_URL = self.settings['host'] + '/api/v3'
+        self.VIEW_URL = self.settings['host']
 
     @property
     def default_headers(self):
@@ -76,7 +76,7 @@ class GitLabProvider(provider.BaseProvider):
 
         :rtype: :class:`dict` with `Authorization` token
         """
-        return {'Authorization': 'Bearer {}'.format(self.token)}
+        return {'Authorization': 'Bearer {}'.format(self.token), 'Accept': 'text/json'}
 
     @property
     def committer(self):

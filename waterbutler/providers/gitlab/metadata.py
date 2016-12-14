@@ -26,6 +26,10 @@ class BaseGitLabMetadata(metadata.BaseMetadata):
             path = os.path.join(self.folder, path.lstrip('/'))
         return super().build_path(path)
 
+    @property
+    def created_utc(self):
+        return None
+
 
 class BaseGitLabFileMetadata(BaseGitLabMetadata, metadata.BaseFileMetadata):
 
@@ -110,8 +114,11 @@ class GitLabFolderTreeMetadata(BaseGitLabFolderMetadata):
         return os.path.basename(self.raw['path'])
 
 
-# TODO dates!
 class GitLabRevision(metadata.BaseFileRevisionMetadata):
+
+    @property
+    def created_utc(self):
+        return None
 
     @property
     def version_identifier(self):
