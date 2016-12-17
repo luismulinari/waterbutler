@@ -1,37 +1,18 @@
+import furl
 import base64
 import aiohttp
 import mimetypes
 
-import furl
-
 from waterbutler.core import streams
 from waterbutler.core import provider
 from waterbutler.core import exceptions
-from waterbutler.core.path import WaterButlerPath
 
 from waterbutler.providers.gitlab import settings
 from waterbutler.providers.gitlab.metadata import GitLabRevision
 from waterbutler.providers.gitlab.metadata import GitLabFileContentMetadata
 from waterbutler.providers.gitlab.metadata import GitLabFolderContentMetadata
 from waterbutler.providers.gitlab.metadata import GitLabFileTreeMetadata
-
-
-class GitLabPath(WaterButlerPath):
-    """WB and GL use slightly different default conventions for their paths, so we
-    often have to munge our WB paths before comparison. Here is a quick overview::
-
-        WB (dirs):  wb_dir.path == 'foo/bar/'     str(wb_dir) == '/foo/bar/'
-        WB (file):  wb_file.path = 'foo/bar.txt'  str(wb_file) == '/foo/bar.txt'
-        GL (dir):   'foo/bar'
-        GL (file):  'foo/bar.txt'
-    """
-
-    def __init__(self, path):
-        wb_path = path
-        if path is not '/':
-            if not path.startswith('/'):
-                wb_path = "/{}".format(path)
-        super().__init__(wb_path)
+from waterbutler.providers.gitlab.path import GitLabPath
 
 
 class GitLabProvider(provider.BaseProvider):
